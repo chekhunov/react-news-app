@@ -1,0 +1,26 @@
+@import '../../assets/scss/_vars.scss';
+@import '../../assets/scss/_mixins.scss';
+
+
+.footer {
+    border-top: 1px solid #E8E8E8;
+}
+
+.copy {
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+    color: #000;
+    white-space: nowrap;
+
+    @include _767 {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    span {
+        margin-right: 5px;
+    }
+}

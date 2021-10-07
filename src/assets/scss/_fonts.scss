@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../fonts/Inter-Regular.woff') format('woff'),
+    url('../fonts/Inter-Regular.woff2') format('woff2'),
+    url('../fonts/Inter-Regular.ttf') format('ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  font-style: normal;
+  src: url('../fonts/Inter-Bold.woff') format('woff'),
+    url('../fonts/Inter-Bold.woff2') format('woff2'),
+    url('../fonts/Inter-Bold.ttf') format('ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?2anhly');
+  src:  url('../fonts/icomoon.eot?2anhly#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?2anhly') format('truetype'),
+    url('../fonts/icomoon.woff?2anhly') format('woff'),
+    url('../fonts/icomoon.svg?2anhly#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

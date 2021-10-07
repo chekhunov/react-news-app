@@ -1,0 +1,148 @@
+@import './_mixins';
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  min-width: 320px;
+  font-size: 14px;
+  color: $default;
+  background-color: $bgdefault;
+  overflow-x: hidden;
+  @extend %inter-400;
+}
+
+.body--active {
+  .mobile-menu {
+    display: flex;
+  }
+
+  .header__popup-btn::before {
+    transform: rotate(45deg) translateY(4px);
+  }
+  .header__popup-btn::after {
+    transform: rotate(-45deg) translateY(-4px);
+  }
+}
+
+.body {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+
+.container-small {
+  max-width: 710px;
+  margin: 0 auto;
+  padding: 0 25px;
+
+  @include _767 {
+    padding: 0 15px;
+  }
+}
+
+.container {
+  max-width: 970px;
+  margin: 0 auto;
+  padding: 0 25px;
+
+  @include _1024 {
+    padding: 0 20px;
+  }
+
+  @include _767 {
+    padding: 0 15px;
+  }
+}
+
+.unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.logo {
+  font-size: 16px;
+  color: #000;
+  white-space: nowrap;
+  @extend %inter-700;
+}
+
+.burger-wrap {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.burger {
+  background-color: #000;
+  position: relative;
+  transition: transform 0.27s ease, bottom 0.27s ease;
+  width: 18px;
+  top: -5px;
+  height: 0;
+
+  &.bigger {
+    width: 23px; 
+
+    .burger span {
+      &::before {
+        bottom: -14px;
+      }
+      &::after {
+        bottom: -7px;
+      }
+    }
+  }
+
+  span,
+  &::before,
+  &::after {
+    transition: inherit;
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    height: 2px;
+    width: inherit;
+    left: 0;
+  }
+
+  span {
+    bottom: 0;
+  }
+
+  &::before {
+    bottom: -12px;
+  }
+
+  &::after {
+    bottom: -6px;
+  }
+
+  &.active {
+   
+    span {
+      transform: rotate(45deg);
+      bottom: -5px;
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+      bottom: -5px;
+    }
+
+    &::after {
+      transform: scale(0);
+    }
+  }
+} 
