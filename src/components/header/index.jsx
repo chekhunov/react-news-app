@@ -4,9 +4,11 @@ import classNames from 'classnames'
 
 
 import style from './Header.module.scss'
-export default function Header() {
+import SubItemCategory from '../subItemCategory'
+export default function Header({ setSelectCategories }) {
     const [isBurger, setIsBurger] = useState(false)
     const [menuShow, setMenuShow] = useState(false)
+
     function burgerShow() {
        setIsBurger(!isBurger)
        if(isBurger) {
@@ -28,23 +30,33 @@ export default function Header() {
                             <span className="icon-find"></span>
 
                             <label htmlFor="find">
-                                <input id="find" type="text" value='' placeholder="Type something to start search"/>
+                                <input id="find" type="text"  placeholder="Type something to start search"/>
                             </label>
                         </div>
                     </div>
 
-                   {isBurger &&
-                    <nav className={style.menu}>
+                  
+                    <nav className={classNames(style.menu,"menu", {active: isBurger})}>
                         <ul className={style.list}>
                             <li className={style.item}>
                                 Categories
+
+                                <span className={style.subListWrapper}>
+                                    <span></span>
+                                 <ul className={style.subList}>
+                                    <SubItemCategory 
+                                    items = {['Sport', 'World', 'Covid', 'Business', 'Politics', 'Science', 'Religion', 'Health']}
+                                    setSelectCategories = {setSelectCategories}
+                                    />
+                                </ul>
+                                </span>
                             </li>
 
                             <li className={style.item}>
                                 ⚡️ Trending news
                             </li>
                         </ul>
-                    </nav>}
+                    </nav>
 
                     <div className="burger-wrap" onClick={() => burgerShow()}>
                         <div 

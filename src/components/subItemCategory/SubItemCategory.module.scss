@@ -1,0 +1,12 @@
+@import '../../assets/scss/_vars.scss';
+@import '../../assets/scss/_mixins.scss';
+
+.subItem {
+    margin-bottom: 7px;
+    
+
+    &:hover {
+        color: $accent;
+        transition: color 0.3s;
+    }
+}
