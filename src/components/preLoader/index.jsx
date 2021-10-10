@@ -5,7 +5,7 @@ import './Preloader.scss'
 export default function PreLoader() {
     return (   
       
-        <div class="lds-facebook">
+        <div className="lds-facebook">
             <div></div>
             <div></div>
             <div></div>

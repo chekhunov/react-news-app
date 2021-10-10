@@ -1,45 +1,46 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import PreLoader from '../../components/preLoader'
+import React, { useState } from 'react'
+import { withRouter } from "react-router";
+import { PreLoader, CardNews } from '../../components'
 
 import './Home.scss'
-export default function Home({ isLoading, news }) {
-
+function Home({ isLoading, getDays, setIdNews, sortNews, getTime, setIsClickNews }) { 
     
+    const [isCountMinuts, setIsCountMinuts] = useState(false)
+    const [howLongOpen, setHowLongOpen] = useState([])
 
     return (
-        <div className="news d-flex justify-center align-center m-auto">
+        <div className="news d-flex mt-30 mb-50">
             <div className="container">
-            { !isLoading && <div className="news__inner">
-                <div className="news__meta">
-                    <div className="news__left">
-                    <div className="news__headline">
-                            
-                        </div>
-
-                        <p className="news__desc">
-
-                        </p>
-
-                        <div className="news__bottom">
-                            <div className="news__date"></div>
-
-                            <Link>
-                                <span className="news__link">Read more</span>
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="news__rigth">
-                        <img src="" alt="content news" />
-                    </div>
-                </div>
-
-                <div className="news__content">
-
-
-                </div>
+            { !isLoading && 
+            <div className="news__inner">
                 
+            {sortNews && sortNews.map((item, index) => {
+                if(index === 0) {         
+                return  <CardNews 
+                            key={item.id} 
+                            setIsClickNews={setIsClickNews}
+                            getDays={getDays} 
+                            getTime={getTime} 
+                            setIdNews={setIdNews}
+                            {...item} />
+                    } 
+                })
+            }
+
+            <div className="news__content">
+                {sortNews && sortNews.map((item, index) => {
+                    if(index >= 1) {         
+                    return  <CardNews 
+                                key={item.id}
+                                setIsClickNews={setIsClickNews}
+                                getDays={getDays} 
+                                getTime={getTime}
+                                setIdNews={setIdNews}
+                                {...item} />
+                        }
+                    })
+                }
+            </div>         
                 </div>}
 
             </div>
@@ -48,3 +49,5 @@ export default function Home({ isLoading, news }) {
         </div>
     )
 }
+
+export default withRouter(Home)

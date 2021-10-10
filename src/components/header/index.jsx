@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
+import {SubItemCategory, CloseButton } from '../'
 
 
 import style from './Header.module.scss'
-import SubItemCategory from '../subItemCategory'
-export default function Header({ setSelectCategories }) {
+export default function Header({ setSelectCategories, filter, setFilter, filteredList, handleSubmit }) {
     const [isBurger, setIsBurger] = useState(false)
     const [menuShow, setMenuShow] = useState(false)
+    const [removeSearch, setRemoveSearch] = useState("");
 
     function burgerShow() {
-       setIsBurger(!isBurger)
+        setIsBurger(!isBurger)
        if(isBurger) {
         setMenuShow(true)
        }
@@ -26,12 +27,21 @@ export default function Header({ setSelectCategories }) {
                             <span className="logo">News App</span>
                         </Link>
 
-                        <div className={style.headerFind}>
-                            <span className="icon-find"></span>
+                        <div className={classNames(style.headerFind, "header-find")}>
+                            <span className="icon-find" onClick={() => filteredList(filter)}></span>
 
                             <label htmlFor="find">
-                                <input id="find" type="text"  placeholder="Type something to start search"/>
+                                <input 
+                                id="find" 
+                                className="find-input"
+                                type="text" 
+                                value={filter} 
+                                onChange={(e) => setFilter(e.target.value)}
+                                placeholder="Type something to start search"
+                                />
                             </label>
+
+                            <CloseButton handleSubmit={handleSubmit}/>
                         </div>
                     </div>
 
@@ -44,15 +54,18 @@ export default function Header({ setSelectCategories }) {
                                 <span className={style.subListWrapper}>
                                     <span></span>
                                  <ul className={style.subList}>
+
                                     <SubItemCategory 
                                     items = {['Sport', 'World', 'Covid', 'Business', 'Politics', 'Science', 'Religion', 'Health']}
                                     setSelectCategories = {setSelectCategories}
+                                    burgerShow={burgerShow}
                                     />
+
                                 </ul>
                                 </span>
                             </li>
 
-                            <li className={style.item}>
+                            <li className={style.item} onClick={() => {setSelectCategories('trending'); burgerShow()}}>
                                 ⚡️ Trending news
                             </li>
                         </ul>

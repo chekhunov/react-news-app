@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 import style from './Footer.module.scss'
+
+
 export default function Footer() {
+    const [showScroll, setShowScroll] = useState(false)
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 300){
+      setShowScroll(true)
+    } else if (showScroll && window.pageYOffset <= 300){
+      setShowScroll(false)
+    }
+  };
+
+  const scrollTop = () =>{
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
+
+  window.addEventListener('scroll', checkScrollTop)
     return (
         <section className = {style.footer}>
             <div className="container">
@@ -14,7 +31,7 @@ export default function Footer() {
 
                      2021 copyright all rights reserved
 
-                <button className="button-up">Scroll to top <span className="icon-arrow-top"></span></button>
+                {showScroll && <button className="button-up" onClick={scrollTop}>Scroll to top <span className="icon-arrow-top"></span></button>}
                 </div>
             </div>
         </section>

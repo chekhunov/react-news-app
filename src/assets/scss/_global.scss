@@ -28,11 +28,16 @@ body {
 }
 
 .body {
-  height: 100vh;
+  min-height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
 }
+
+a {
+  color: $title;
+}
+
 
 .news {
   height: 100%;
@@ -40,7 +45,7 @@ body {
 }
 
 .container-small {
-  max-width: 710px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 0 25px;
 
@@ -50,7 +55,7 @@ body {
 }
 
 .container {
-  max-width: 970px;
+  max-width: 1070px;
   margin: 0 auto;
   padding: 0 25px;
 
@@ -196,5 +201,25 @@ body {
 
   span {
     margin-left: 10px;
+  }
+}
+
+.truncate-text {
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+}
+
+.trim-few {
+  display: -webkit-box;
+  -webkit-box-orient: vertical; 
+  overflow: hidden; 
+}
+
+.header-find {
+  &:hover {
+    .close-button {
+      opacity: 1;
+    }
   }
 }

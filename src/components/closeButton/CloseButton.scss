@@ -1,0 +1,17 @@
+.close-button {
+  opacity: 0;
+    cursor: pointer;
+    svg {
+
+      margin-top: 4px;
+      display: inline-flex;
+      transform: rotate(0deg);
+      transition: transform 0.3s;
+    }
+    &:hover {
+      svg {
+        transform: rotate(90deg);
+        transition: transform 0.3s;
+      }
+    }
+  }
