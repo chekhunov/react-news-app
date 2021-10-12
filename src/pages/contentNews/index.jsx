@@ -6,8 +6,6 @@ import './ContentNews.scss'
 function ContentNews({ isLoading, sortNews, idNews }) {
     const { id } = useParams();
 
-    // React.useEffect(() => {},[sortNews, idNews])
-
     return (
         <>
             {!isLoading && 
@@ -15,7 +13,7 @@ function ContentNews({ isLoading, sortNews, idNews }) {
             <section className="news-pages">
                 <div className="container">
                     <div className="news-pages__inner">
-                        {sortNews && sortNews.map((item, index) => {
+                        {sortNews && sortNews.map((item, index) => {                   
                         if(item.id === idNews){
                             return  <div key="item.id" className="news-pages__content">
                                         <div  className="news-pages__top">

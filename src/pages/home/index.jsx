@@ -3,10 +3,17 @@ import { withRouter } from "react-router";
 import { PreLoader, CardNews } from '../../components'
 
 import './Home.scss'
-function Home({ isLoading, getDays, setIdNews, sortNews, getTime, setIsClickNews }) { 
-    
-    const [isCountMinuts, setIsCountMinuts] = useState(false)
-    const [howLongOpen, setHowLongOpen] = useState([])
+function Home({ 
+    isLoading, 
+    getDays, 
+    setIdNews, 
+    sortNews, 
+    getTime, 
+    getMinLastViewed,
+    setIsClickNews, 
+    onAddToNewsTime, 
+    newsClickTimeItems}) { 
+
 
     return (
         <div className="news d-flex mt-30 mb-50">
@@ -19,9 +26,12 @@ function Home({ isLoading, getDays, setIdNews, sortNews, getTime, setIsClickNews
                 return  <CardNews 
                             key={item.id} 
                             setIsClickNews={setIsClickNews}
+                            onPlus={(obj) => onAddToNewsTime(obj)}
+                            added={newsClickTimeItems.some((obj) => obj.id === item.id)}
                             getDays={getDays} 
                             getTime={getTime} 
                             setIdNews={setIdNews}
+                            getMinLastViewed={getMinLastViewed}
                             {...item} />
                     } 
                 })
@@ -33,9 +43,12 @@ function Home({ isLoading, getDays, setIdNews, sortNews, getTime, setIsClickNews
                     return  <CardNews 
                                 key={item.id}
                                 setIsClickNews={setIsClickNews}
+                                onPlus={(obj) => onAddToNewsTime(obj)}
+                                added={newsClickTimeItems.some((obj) => obj.id === item.id)}
                                 getDays={getDays} 
                                 getTime={getTime}
                                 setIdNews={setIdNews}
+                                getMinLastViewed={getMinLastViewed}
                                 {...item} />
                         }
                     })

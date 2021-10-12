@@ -65,9 +65,11 @@ export default function Header({ setSelectCategories, filter, setFilter, filtere
                                 </span>
                             </li>
 
-                            <li className={style.item} onClick={() => {setSelectCategories('trending'); burgerShow()}}>
-                                ⚡️ Trending news
-                            </li>
+                            <Link to="/">
+                                <li className={style.item} onClick={() => {setSelectCategories('trending'); burgerShow()}}>
+                                    ⚡️ Trending news
+                                </li>
+                            </Link>
                         </ul>
                     </nav>
 

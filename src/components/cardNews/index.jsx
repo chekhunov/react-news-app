@@ -10,14 +10,35 @@ export default function CardNews({
     webPublicationDate, 
     getDays, 
     getTime, 
-    setIdNews, 
-    viewed=false}) {
+    getMinLastViewed,
+    setIdNews,
+    onClick, 
+    onPlus,
+    viewed=false,
+    added = false}) {
+
+        const [isAdded, setIsAdded] = React.useState(added);
+        const [date, setDate] = useState(+new Date)
+        const [isCount, setIsCount] = useState('')
+
+        const onClickPlus = () => {
+            onPlus({ id, date });
+            setIsAdded(!isAdded); //инверсия если тру значит фалс и на оборот
+            console.log('onClickPlus')
+        };
+
+        // const getLastTime = (id) => {
+        //     const resultTime = getMinLastViewed(id)
+        //     if(resultTime) {
+        //        return setIsCount(resultTime)
+        //     }
+        // }
 
     return (
                 <article className="news__meta">
                     <div className="news__left">
                         <Link to={`/news/${id}`}>
-                            <div className="news__headline truncate-text" onClick={() => {getTime(id); setIdNews(id); setIsClickNews(true)}}>
+                            <div className="news__headline truncate-text" onClick={() => {onClickPlus(); getTime(id); setIdNews(id); setIsClickNews(true)}}>
                                 {webTitle}
                             </div>
                         </Link>
@@ -32,7 +53,7 @@ export default function CardNews({
 
                                 <span>day{getDays(webPublicationDate)>1 && 's'} ago</span>
 
-                                <span className="news__date-click">{viewed ? 'просмотрена xx минут назад' : 'не просмотрена'}</span>
+                                <span className="news__date-click">{getMinLastViewed(id)}</span>
                             </div>
 
                             <Link to={`/news/${id}`}>

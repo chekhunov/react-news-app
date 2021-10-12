@@ -16,11 +16,13 @@ function App() {
   const [search, setSearch] = useState(false);
   const [removeSearch, setRemoveSearch] = useState(false);
 
+  const [dateMil, setDateMil] = useState(+new Date)
   const [date, setDate] = useState(new Date().toLocaleDateString())
   const [time, setTime] = useState(new Date().toLocaleTimeString())
 
+  const [newsClickTimeItems, setNewsClickTimeItems] = useState([])
+
   const [isClickNews, setIsClickNews] = useState(false)
-  const [timeHowLongClick, setTimeHowLongClick] = useState([])
 
   const [news, setNews] = useState([])
   const [selectCategories, setSelectCategories] = useState('trending')
@@ -30,19 +32,31 @@ function App() {
   const [texpArray, setTexpArray] = useState([])
 
   const handleSubmit= () =>{
-    // clearing the values
     setFilter("")
     setRemoveSearch(!removeSearch)
-    // concatArr(sortNews,timeHowLongClick)
   }
 
-  // const concatArr = (oldNews, timeHowLongClick) => {
-  //   let arrays = [...oldNews]
-  //   for (let keys in timeHowLongClick){
-  //     arrays.hasOwnProperty(keys) || (arrays[keys] = timeHowLongClick[keys])
-  //   }
-  //   console.log(arrays,'gu')
-  // }
+
+
+  //getMinLastViewed
+  const getMinLastViewed = (id) => {
+    if(!id) {
+      return
+    }
+    let millisecInMin=60000
+    const newTime = dateMil
+    const objMin = newsClickTimeItems.filter((item) => item.id.includes(id))
+
+    const ti = objMin.map((item) => item.date)
+    const min = Math.ceil((newTime - ti)/millisecInMin)
+   
+    if(min < 27233) {
+      //пипец поломка мозгов
+      return String(`просмотрена ${min} минут назад`)
+    }
+    return 'не просмотрена'
+  }
+
 
   function getTime (idCard) {
     if(!idCard) {
@@ -141,15 +155,20 @@ const filteredList = (filterString) => {
       try{
       setIsLoading(true);
     
-
-      // const newsTredingResponse = await axios.get(`https://content.guardianapis.com/search?q=trending&show-tags=all&page-size=2 0&show-fields=all&order-by=relevance&api-key=0cc1c5bc-7fe4-47bc-80cc-f17c13b e193c`,);
       const newsResponse = await axios.get(`https://content.guardianapis.com/search?q= + ${selectCategories} + &show-tags=all&page-size=20&show-fields=all&order-by=relevance&api-key=0cc1c5bc-7fe4-47bc-80cc-f17c13be193c`,);
       const newsTimeClickResponse = await axios.get(`https://614bb851e4cc2900179eb1ab.mockapi.io/news-time`,);
       //my mockap
       //https://614bb851e4cc2900179eb1ab.mockapi.io/news-time
+      // [
+        // {
+        //   "id": "business/2021/oct/08/slam-dunk-belgian-biscuits-big-christmas-foodie-trend-biscoff",
+        //   "date": "12.10.2021",
+        //   "idNum": "3"
+        //  }
+      //  ]
 
       sortedList(newsResponse.data.response.results);
-      setTimeHowLongClick(newsTimeClickResponse.data)
+      setNewsClickTimeItems(newsTimeClickResponse.data)
       } catch (err) {
         alert('Hе удалось загрузить список новостей')
       }
@@ -161,8 +180,23 @@ const filteredList = (filterString) => {
     return () => cleanupFunction = true;
   }, [selectCategories, removeSearch]);
 
+
+  const onAddToNewsTime = (obj) => {
+    if (newsClickTimeItems.find((item) => String(item.id) === String(obj.id))) {
+      axios.delete(`https://614bb851e4cc2900179eb1ab.mockapi.io/news-time/${obj.id}`);
+      setNewsClickTimeItems((prev) => prev.filter((item) => String(item.id) === String(obj.id)));
+      console.log(String(obj.id),'delete')
+    } else {
+      //сдесь мы отправляем post запрос потому что мы меняем состояние сервера
+      axios.post('https://614bb851e4cc2900179eb1ab.mockapi.io/news-time', obj);
+
+      setNewsClickTimeItems((prev) => [...prev, obj]);
+      console.log('onAddToNewsTime')
+    }
+  };
+
   console.log(sortNews)
-  console.log(timeHowLongClick)
+  console.log(newsClickTimeItems, 'newsClickTimeItems start загрузка')
   return (
     <Context.Provider value={[context, setContext]}>
       <BrowserRouter>  
@@ -180,7 +214,10 @@ const filteredList = (filterString) => {
               sortNews={sortNews}
               setIdNews={setIdNews} 
               getDays={getDays}
-              getTime={getTime}/>}/>
+              getTime={getTime}
+              onAddToNewsTime={onAddToNewsTime}
+              newsClickTimeItems={newsClickTimeItems}
+              getMinLastViewed={getMinLastViewed}/>}/>
 
             <Route path="/news/:id" render={()=> <ContentNews 
             isLoading = {isLoading}
