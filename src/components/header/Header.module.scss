@@ -2,6 +2,7 @@
 @import '../../assets/scss/_mixins.scss';
 
 .headerInner {
+    position: relative;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -24,6 +25,21 @@
     align-items: center;
     background-color: #F2F2F2;
     border-radius: 4px;
+
+    @include _1024 {
+        margin-left: 20px;
+    }
+
+    @include _767 {
+        position: absolute;
+        width: 100%;
+        min-width: 240px;
+        max-width: 240px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        bottom: -20px;
+    }
 
     label {
         width: 100%;
@@ -48,6 +64,11 @@
 .list {
     display: flex;
     align-items: center;
+
+    @include _767 {
+        // flex-direction: column;
+        background-color: #fff;
+    }
 }
 
 
@@ -66,6 +87,10 @@
     opacity: 0;
     transform: translateY(-30%); 
     transition: transform 0.5s, opacity 0.3s;
+
+    @include _767 {
+        left: -25px;
+    }
 
     span {
         position: absolute;
@@ -89,7 +114,7 @@
     color: #000;
     cursor: pointer;
     transition: color 0.3s;
-    padding: 10px 0;
+    padding: 10px 15px;
 
     &:hover {
         color: $accent;
@@ -104,6 +129,13 @@
 
     &:first-child {
         margin-right: 60px;
+
+        @include _1024 {
+            margin-right: 20px;
+        }
+        @include _767 {
+            margin-right: 0;
+        }
     }
 }
 

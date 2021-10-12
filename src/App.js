@@ -12,7 +12,6 @@ function App() {
 
   const [filter, setFilter] = useState('');
 
-  const [search, setSearch] = useState(false);
   const [removeSearch, setRemoveSearch] = useState(false);
 
   const [dateMil, setDateMil] = useState(+new Date());
@@ -27,8 +26,6 @@ function App() {
   const [selectCategories, setSelectCategories] = useState('trending');
   const [idNews, setIdNews] = useState('');
   const [sortNews, setSortNews] = useState([]);
-
-  const [texpArray, setTexpArray] = useState([]);
 
   const handleSubmit = () => {
     setFilter('');
@@ -49,7 +46,13 @@ function App() {
 
     if (min < 27233) {
       //пипец поломка мозгов
-      return String(`просмотрена ${min} минут назад`);
+      if(min<60){
+       return String(`просмотрена ${min} мин. назад`);
+      } else {
+        const hours = Math.floor(min/60)
+        const minLastPeriod = min - (hours*60 )
+        return String(`просмотрена ${hours}ч.${minLastPeriod} мин. назад`);
+      }
     }
     return 'не просмотрена';
   };
@@ -108,10 +111,6 @@ function App() {
 
   //кастомное сравнение))
   const changeChars = (filterString) => {
-    // if(!filterString){
-    //   return
-    // }
-    console.log('ru');
     // mna
     const newfilterString = filterString.split('');
     const enArrays = "qwertyuiop[]asdfghjkl;'zxcvbnm,.".split('');
@@ -124,7 +123,7 @@ function App() {
       const filterChar = ruArrays.filter((item) => item.toLowerCase().includes(char.toLowerCase()));
       if (filterChar) {
         //получаем индексы елементов
-        const array = ruArrays.findIndex((i) => i == filterChar);
+        const array = ruArrays.findIndex((i) => i === filterChar);
         if (array === -1) {
           return;
         } else {
@@ -142,6 +141,8 @@ function App() {
     const filterActive = newFilterList.filter((item) =>
       item.webTitle.toLowerCase().includes(filterString.toLowerCase()),
     );
+    // const filterAnotherVariants = filterString.sort().split(' ')
+    // console.log(filterAnotherVariants)
     if (filterActive) {
       setSortNews(filterActive);
     }
@@ -165,7 +166,7 @@ function App() {
         // [
         // {
         //   "id": "business/2021/oct/08/slam-dunk-belgian-biscuits-big-christmas-foodie-trend-biscoff",
-        //   "date": "12.10.2021",
+        //   "date": "1633995714413",
         //   "idNum": "3"
         //  }
         //  ]
@@ -187,18 +188,14 @@ function App() {
     if (newsClickTimeItems.find((item) => String(item.id) === String(obj.id))) {
       axios.delete(`https://614bb851e4cc2900179eb1ab.mockapi.io/news-time/${obj.id}`);
       setNewsClickTimeItems((prev) => prev.filter((item) => String(item.id) === String(obj.id)));
-      console.log(String(obj.id), 'delete');
     } else {
       //сдесь мы отправляем post запрос потому что мы меняем состояние сервера
       axios.post('https://614bb851e4cc2900179eb1ab.mockapi.io/news-time', obj);
 
       setNewsClickTimeItems((prev) => [...prev, obj]);
-      console.log('onAddToNewsTime');
     }
   };
 
-  console.log(sortNews);
-  console.log(newsClickTimeItems, 'newsClickTimeItems start загрузка');
   return (
     <Context.Provider value={[context, setContext]}>
       <BrowserRouter>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import {SubItemCategory, CloseButton } from '../'
 
-
 import style from './Header.module.scss'
 export default function Header({ setSelectCategories, filter, setFilter, filteredList, handleSubmit }) {
     const [isBurger, setIsBurger] = useState(false)

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './CardNews.scss';
@@ -12,27 +12,16 @@ export default function CardNews({
   getTime,
   getMinLastViewed,
   setIdNews,
-  onClick,
   onPlus,
-  viewed = false,
   added = false,
 }) {
   const [isAdded, setIsAdded] = React.useState(added);
   const [date, setDate] = useState(+new Date());
-  const [isCount, setIsCount] = useState('');
 
   const onClickPlus = () => {
     onPlus({ id, date });
-    setIsAdded(!isAdded); //инверсия если тру значит фалс и на оборот
-    console.log('onClickPlus');
+    setIsAdded(!isAdded);
   };
-
-  // const getLastTime = (id) => {
-  //     const resultTime = getMinLastViewed(id)
-  //     if(resultTime) {
-  //        return setIsCount(resultTime)
-  //     }
-  // }
 
   return (
     <article className="news__meta">
@@ -65,6 +54,8 @@ export default function CardNews({
             <span
               className="news__link"
               onClick={() => {
+                onClickPlus();
+                getTime(id);
                 setIdNews(id);
                 setIsClickNews(true);
               }}>
@@ -79,6 +70,8 @@ export default function CardNews({
           <div
             className="news__img-inner"
             onClick={() => {
+              onClickPlus();
+              getTime(id);
               setIdNews(id);
               setIsClickNews(true);
             }}>

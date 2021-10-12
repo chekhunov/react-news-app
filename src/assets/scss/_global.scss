@@ -38,7 +38,6 @@ a {
   color: $title;
 }
 
-
 .news {
   height: 100%;
   flex: 1;
@@ -50,7 +49,7 @@ a {
   padding: 0 25px;
 
   @include _767 {
-    padding: 0 15px;
+    padding: 0;
   }
 }
 
@@ -84,8 +83,6 @@ a {
   white-space: nowrap;
   @extend %inter-700;
 }
-
-
 
 .burger {
   background-color: #000;
@@ -173,6 +170,15 @@ a {
     z-index: 10;
     transform:translateY(0%);
     transition: transform 0.3s, opacity 0.3s;
+
+    @include _767 {
+      width: 100%;
+      position: absolute;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      transform:translateY(90%);
+    }
   }
 }
 
@@ -216,7 +222,8 @@ a {
   overflow: hidden; 
 }
 
-.header-find {
+.header-find,
+.news-pages__input-article {
   &:hover {
     .close-button {
       opacity: 1;

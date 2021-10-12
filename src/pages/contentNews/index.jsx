@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
-import { useParams, useLocation } from 'react-router-dom';
-import { PreLoader } from '../../components';
+import { useLocation } from 'react-router-dom';
+import { PreLoader, CloseButton } from '../../components';
+import classNames from 'classnames';
 
 import './ContentNews.scss';
 function ContentNews({ isLoading, sortNews, setIsLoading }) {
-  // const { id } = useParams();
+  const [filterArticle, setFilterArticle] = useState('')
   const location = useLocation();
 
-  React.useEffect(() => {
+  const handleSubmit = () => {
+    setFilterArticle('');
+  };
+
+  //корявая реализация поискатекста по странице
+  function domRangeHighlight(findtext) {
+    let text = findtext.toLowerCase()
+    let root = document.getElementById('ex').firstChild;
+    let content = root.nodeValue.toLowerCase();
+    if (~content.indexOf(text)) {
+      if (document.createRange) {
+        let rng = document.createRange();
+        rng.setStart(root, content.indexOf(text));
+        rng.setEnd(root, content.indexOf(text) + text.length);
+        let highlightDiv = document.createElement('span');
+        highlightDiv.style.backgroundColor = 'blue';
+        rng.surroundContents(highlightDiv);
+      }
+    } else {
+      alert( 'Совпадений не найдено' );
+    }
+  }
+
+  useEffect(() => {
     // debugger;
     if (!sortNews.length) {
       setIsLoading(true);
     } else {
       setIsLoading(false);
     }
-    console.log(sortNews, 'sort');
-    console.log(isLoading);
-  }, [sortNews, isLoading]);
+  }, [sortNews, isLoading, filterArticle]);
 
   return (
     <>
@@ -31,14 +53,31 @@ function ContentNews({ isLoading, sortNews, setIsLoading }) {
                     return (
                       <div key="item.id" className="news-pages__content">
                         <div className="news-pages__top">
-                          <img src={item.fields.thumbnail} alt="news photo" />
+                          <img src={item.fields.thumbnail} alt="news" />
+
+                          <div className={classNames("news-pages__input-article")}>
+                            <span className="icon-find" onClick={(e) => domRangeHighlight(filterArticle)}></span>
+
+                            <label htmlFor="find">
+                                <input 
+                                id="find-article" 
+                                className="find-input-article"
+                                type="text" 
+                                value={filterArticle} 
+                                onChange={(e) => setFilterArticle(e.target.value)}
+                                placeholder="Find text in article"
+                                />
+                            </label>
+
+                            <CloseButton handleSubmit={handleSubmit}/>
+                        </div>
                         </div>
 
                         <div className="news-pages__article">
                           <div className="container-small">
                             <div className="news-pages__article-inner">
                               <h1 className="news-pages__title">{item.webTitle}</h1>
-                              <p className="news-pages__desc">
+                              <p id="ex" className="news-pages__desc">
                                 "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
                                 consectetur, adipisci velit..." "There is no one who loves pain
                                 itself, who seeks after it and wants to have it, simply because it
@@ -47,7 +86,7 @@ function ContentNews({ isLoading, sortNews, setIsLoading }) {
 
                               <hr />
 
-                              <p className="news-pages__text">
+                              <p  className="news-pages__text">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id
                                 venenatis justo, mattis commodo dolor. Ut tristique aliquam
                                 fermentum. Nullam purus sem, gravida a urna id, viverra rhoncus
